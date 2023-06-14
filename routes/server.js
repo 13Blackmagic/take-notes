@@ -1,19 +1,19 @@
 const express = require('express');
 const path = require('path');
-const apiRoutes = require('./routes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes');
+const htmlRoutes = require('./js/notes.html');
 
 const port = process.env.PORT || 3001;
+
+htmlRoutes.use(express.urlencoded({ extended: true }));
+htmlRoutes.use(express.json());
+htmlRoutes.use(express.static('public'));
+
+const { notes } = require('./db/db.json');
+
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/api', api);
-
-app.use(express.static('public'));
 
 app.get('/', (req, res) =>
     res.sendFile(path.join(__dirname, '/public/index.html'))
