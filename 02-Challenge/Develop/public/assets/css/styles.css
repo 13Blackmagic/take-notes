@@ -5,6 +5,13 @@ body {
   padding: 0;
 }
 
+.navbar {
+  background-color: #f40606;
+  height: 70px;
+  padding: 0;
+}
+
+
 .save-note {
   display: none;
 }
@@ -38,7 +45,7 @@ body {
 
 .note-title:read-only,
 .note-textarea:read-only {
-  color: #757575;
+  color: #f40606;
 }
 
 .list-container .card {
