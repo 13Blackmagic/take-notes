@@ -1,17 +1,26 @@
-const {join} = require("path");
-const path = require("path");
+const router = require('express').Router();
+const express = require('express');
+const dbTools = require('../db/dbTools');
 
-module.exports = function(app) {
-     
-    app.get("/notes.html", (req, res) => {
-        console.log("notes.html");
-        res.sendFile(path.join(__dirname, "../public/notes.html"));
-    });
+router.get('/notes', (req, res) => {
+  dbTools.getNote()
+  .then((notes) =>{
+    return res.json(notes)
+  })
+});
 
-    app.get("/", (req, res) => {
+router.post('/notes', (req, res) => {
+  dbTools.getNote()
+  .then((notes) =>{
+    return res.json(notes)
+  })
+});
 
-        res.sendFile(path.join(__dirname, "../public/index.html"));
-    }
-    );
-};
+router.delete('/notes/:id', (req, res) => {
+  dbTools.getNote()
+  .then((notes) =>{
+    return res.json(notes)
+  })
+});
 
+module.exports = router;
