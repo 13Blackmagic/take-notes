@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const express = require('express');
-const dbTools = require('../db/dbTools');
+const express = require('express');;
+const dbTools = require('../db/db.json');
 
 router.get('/notes', (req, res) => {
   dbTools.getNote()
