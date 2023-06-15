@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const htmlRoutes = require('./js/notes.html');
+const htmlRoutes = require('./routes/html-routes.js');
 
 const port = process.env.PORT || 3001;
 
@@ -16,11 +16,11 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) =>
-    res.sendFile(path.join(__dirname, '/public/index.html'))
+    res.sendFile(path.join(__dirname, './routes/html-routes.js'))
 );
 
 app.get('/notes', (req, res) =>
-    res.sendFile(path.join(__dirname, '/public/notes.html'))
+    res.sendFile(path.join(__dirname, './routes/html-routes.js'))
 );
 
 app.get('/api/notes', (req, res) => {
