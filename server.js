@@ -12,13 +12,12 @@ const express = require('express');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static('public'));
-app.use('/api', apiRoutes);
-app.use('/', htmlRoutes);
-app.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT} 🚀`)
-);
+
+app.get('/api/notes', (req, res) => {
+  res.json(notes);
+});
+
 
 function createNewNote (body, notesArray) {
   const note = body;
