@@ -1,39 +1,44 @@
-const exp = require("constants");
-const path = require("path");
-const router = require("express").Router();
-exp.use(express.json());
-exp.use(express.urlencoded({ extended: true }));
-exp.use(exp.static('public'));
-exp.use('/api', apiRoutes);
-exp.use('/', htmlRoutes);
-exp.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT} 🚀`)
-);
-// Route for index.html
-router.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/../public/index.html'))
-);
+const path = require('path');
+const router = require('express').Router();
 
-// Route for notes.html
-router.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, '/../public/notes.html'))
-);
 
-// Route for notes page
-router.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, '/../db/dbNotes.json'))
-);
+router.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/notes.html'));
+});
+
+router.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 module.exports = router;
 
-// route for notes.json
-router.get('/api/notes', (req, res) =>
-    res.sendFile(path.join(__dirname, '/../db/db.json'))
-    );
-module.exports = router;
+// create default route for all the other routes using "*"
+router.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
-router.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/../public/notes.html'))
-);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const express = require('express');
 
 // import express from 'express';
 // create an instance of the express router
