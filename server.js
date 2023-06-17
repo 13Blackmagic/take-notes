@@ -3,8 +3,7 @@ const express = require('express');
 const path = require('path');
 const notes = require('./db/db.json');
 const fs = require('fs');
-const saveNote = require('./db/db.json');
-
+const { get } = require('http');
 const app = express();
 
 
@@ -25,44 +24,10 @@ app.get('/notes', (req, res) => {
 });
 
 
-function createNewNote (body, notesArray) {
-  const newNote = body;
-  notesArray.push(note);
-  fs.writeFileSync(
-    path.join(__dirname, './db/db.json'),
-    JSON.stringify({ notes: notesArray }, null, 2)
-  );
-  return note;
-}
-
-function deleteNote (id, notesArray) {
-  for (let i = 0; i < notesArray.length; i++) {
-    if (notesArray[i].id === id) {
-      notesArray.splice(i, 1);
-      fs.writeFileSync(
-        path.join(__dirname, './db/db.json'),
-        JSON.stringify({ notes: notesArray }, null, 2)
-      );
-      break;
-    }
-  }
-}
-
 function findById (id, notesArray) {
   const result = notesArray.filter(note => note.id === id)[0];
   return result;
 }
-
-function saveNote (note) {
-  notes.push(note);
-  fs.writeFileSync(
-    path.join(__dirname, './db/db.json'),
-    JSON.stringify({ notes: notesArray }, null, 2)
-  );
-  return note;
-}
-
-
 
 function validateNote (note) {
   if (!note.title || typeof note.title !== 'string') {
