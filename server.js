@@ -1,12 +1,13 @@
+const PORT = process.env.PORT || 3001;
 const express = require('express');
 const path = require('path');
-const apiRoutes = require('./routes/api-Routes.js');
-const htmlRoutes = require('./routes/html-routes.js');
 const notes = require('./db/db.json');
-
-const PORT = 3001;
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const notesDB = require('./db/db.json');
 
 const app = express();
+const express = require('express');
 
 
 app.use(express.json());
