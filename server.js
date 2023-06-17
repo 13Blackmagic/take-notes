@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const notes = require('./db/db.json');
 const fs = require('fs');
-const notesDB = require('./db/db.json');
+const saveNote = require('./db/db.json');
 
 const app = express();
 
@@ -26,31 +26,43 @@ app.get('/notes', (req, res) => {
 
 
 function createNewNote (body, notesArray) {
-  const note = body;
+  const newNote = body;
   notesArray.push(note);
   fs.writeFileSync(
     path.join(__dirname, './db/db.json'),
     JSON.stringify({ notes: notesArray }, null, 2)
   );
   return note;
-}
-
-function saveNotes (notesArray) {
-  fs.writeFileSync(
-    path.join(__dirname, './db/db.json'),
-    JSON.stringify({ notes: notesArray }, null, 2)
-  );
 }
 
 function deleteNote (id, notesArray) {
-  const note = body;
-  notesArray.push(note);
+  for (let i = 0; i < notesArray.length; i++) {
+    if (notesArray[i].id === id) {
+      notesArray.splice(i, 1);
+      fs.writeFileSync(
+        path.join(__dirname, './db/db.json'),
+        JSON.stringify({ notes: notesArray }, null, 2)
+      );
+      break;
+    }
+  }
+}
+
+function findById (id, notesArray) {
+  const result = notesArray.filter(note => note.id === id)[0];
+  return result;
+}
+
+function saveNote (note) {
+  notes.push(note);
   fs.writeFileSync(
     path.join(__dirname, './db/db.json'),
     JSON.stringify({ notes: notesArray }, null, 2)
   );
   return note;
 }
+
+
 
 function validateNote (note) {
   if (!note.title || typeof note.title !== 'string') {
@@ -74,6 +86,8 @@ app.post('/api/notes', (req, res) => {
   }
 }
 );
+
+
 
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
