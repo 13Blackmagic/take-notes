@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 const notes = require('./db/db.json');
 const fs = require('fs');
-const { get } = require('http');
 const app = express();
+
 
 
 app.use(express.json());
@@ -12,7 +12,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.get('/api/notes', (req, res) => {
-  res.json(notes);
+  res.json(notes => notes.id === req.params.id);
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.get('/', (req, res) => {
@@ -23,21 +27,6 @@ app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
-
-function findById (id, notesArray) {
-  const result = notesArray.filter(note => note.id === id)[0];
-  return result;
-}
-
-function validateNote (note) {
-  if (!note.title || typeof note.title !== 'string') {
-    return false;
-  }
-  if (!note.text || typeof note.text !== 'string') {
-    return false;
-  }
-  return true;
-}
 
 app.post('/api/notes', (req, res) => {
   req.body.id = notes.length.toString();
