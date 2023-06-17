@@ -27,6 +27,22 @@ app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
+function createNewNote (body, notesArray) {
+  const note = body;
+  if (!Array.isArray(notesArray))
+    notesArray = [];
+    if (notesArray.length === 0)
+    notesArray.push(0);
+    body.id = notesArray[0];
+    notesArray[0]++;
+
+  notesArray.push(note);
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),
+    JSON.stringify({ notes: notesArray }, null, 2)
+  );
+  return note;
+}
 
 app.post('/api/notes', (req, res) => {
   req.body.id = notes.length.toString();
