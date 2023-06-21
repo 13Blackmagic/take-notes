@@ -40,25 +40,32 @@ app.get('/', (req, res) => {
 });
 
 
-function createNewNote (body, notesArray) {
-  const note = body;
-  if (!Array.isArray(notesArray))
-    notesArray = [];
-    if (notesArray.length === 0)
-    notesArray.push(0);
-    body.id = notesArray[0];
-    notesArray[0]++;
+// function createNewNote (body, notesArray) {
+//   const note = body;
+//   if (!Array.isArray(notesArray))
+//     notesArray = [];
+//     if (notesArray.length === 0)
+//     notesArray.push(0);
+//     body.id = notesArray[0];
+//     notesArray[0]++;
 
-  notesArray.push(note);
-  fs.writeFileSync(
-    path.join(__dirname, './db/db.json'),
-    JSON.stringify({ notes: notesArray }, null, 2)
-  );
-  return note;
-}
+//   notesArray.push(note);
+//   fs.writeFileSync(
+//     path.join(__dirname, './db/db.json'),
+//     JSON.stringify({ notes: notesArray }, null, 2)
+//   );
+//   return note;
+// }
 
-// app.post('/api/notes', (req, res) => {
-//   req.body.id = notes.length.toString();
+app.post('/api/notes', (req, res) => {
+  let notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  let newNote = req.body;
+  newNote.id = notes.length.toString();
+  notes.push(newNote);
+  fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+  res.json(notes);
+});
+
 
 
 
