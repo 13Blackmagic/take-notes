@@ -11,21 +11,34 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.get('/api/notes', (req, res) => {
-  res.json(notes => notes.id === req.params.id);
+app.get('/notes', (req, res) => {
+  console.log("/notes");
+  res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
+
+
+app.get('/api/notes', (req, res) => {
+  console.log("/api/notes");
+  res.sendFile(path.join(__dirname, './db/db.json'));
+});
+
+app.get("/api/notes/:id", function (req, res) {
+  console.log("/api/notes/:id");
+  let notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  res.json(notes[Number(req.params.id)]);
+});
+
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/notes.html'));
-});
-
-app.get('/', (req, res) => {
+  console.log("*");
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
-app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/notes.html'));
+app.get('/', (req, res) => {
+  console.log("/");
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
+
 
 function createNewNote (body, notesArray) {
   const note = body;
@@ -44,18 +57,9 @@ function createNewNote (body, notesArray) {
   return note;
 }
 
-app.post('/api/notes', (req, res) => {
-  req.body.id = notes.length.toString();
+// app.post('/api/notes', (req, res) => {
+//   req.body.id = notes.length.toString();
 
-  if (!validateNote (req.body)) {
-    res.status(400).send('The note is not properly formatted.');
-  } else {
-    const note = createNewNote (req.body, notes);
-
-    res.json(note);
-  }
-}
-);
 
 
 
